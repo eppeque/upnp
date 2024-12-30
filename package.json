@@ -1,0 +1,29 @@
+{
+  "name": "upnp",
+  "version": "1.0.0",
+  "description": "An upgrade to @pnp/sp",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eppeque/upnp.git"
+  },
+  "keywords": [
+    "js",
+    "ts",
+    "sharepoint",
+    "sp",
+    "pnp"
+  ],
+  "author": "Quentin Eppe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eppeque/upnp/issues"
+  },
+  "homepage": "https://github.com/eppeque/upnp#readme",
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}
