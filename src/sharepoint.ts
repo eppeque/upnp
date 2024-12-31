@@ -3,6 +3,7 @@ import "@pnp/sp/webs";
 import "@pnp/sp/lists";
 import "@pnp/sp/items";
 import type { BaseItem } from "./base_item";
+import type { IAttachmentInfo } from "@pnp/sp/attachments";
 
 /**
  * A base class that exposes the most basic operations possible.
@@ -37,16 +38,40 @@ export class SharepointService<T extends BaseItem> {
 
   /**
    * Returns all the items contained in the list.
+   * @param fetchAttachmentFiles Tells whether this method must fetch the attachment files of each item in the list.
    * @returns All the items contained in the list.
    */
-  async getAllItems(): Promise<T[]> {
+  async getAllItems(fetchAttachmentFiles?: boolean): Promise<T[]> {
     if (this.items) return this.items;
 
     this.items = await this.sp.web.lists
       .getByTitle(this.listTitle)
       .items.top(5000)<T[]>();
 
+    // If the argument is not defined, the value is false by default.
+    fetchAttachmentFiles ??= false;
+
+    if (fetchAttachmentFiles) {
+      this.items.forEach((item) =>
+        this.fetchAttachmentFiles(item.ID).then(
+          (attachmentFiles) => (item.AttachmentFiles = attachmentFiles)
+        )
+      );
+    }
+
     return this.items;
+  }
+
+  /**
+   * Returns all the attachment files for the item with the given `id`.
+   * @param id The ID of the item for which the attachment files must be fetched.
+   * @returns An array of the attachment files for the item with the given `id`.
+   */
+  private async fetchAttachmentFiles(id: number): Promise<IAttachmentInfo[]> {
+    return this.sp.web.lists
+      .getByTitle(this.listTitle)
+      .items.getById(id)
+      .attachmentFiles();
   }
 
   /**
