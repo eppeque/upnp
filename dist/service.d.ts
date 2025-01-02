@@ -18,10 +18,6 @@ export declare class Service<T extends BaseItem> {
      */
     private listTitle;
     /**
-     * The cached items of the list for this service.
-     */
-    private items;
-    /**
      * Creates a base service object with basic operations.
      * @param sp The Sharepoint object provided by the `@pnp/sp` package.
      * @param listTitle The title of the list for this service.

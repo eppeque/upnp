@@ -16,10 +16,6 @@ export class Service {
      */
     listTitle;
     /**
-     * The cached items of the list for this service.
-     */
-    items;
-    /**
      * Creates a base service object with basic operations.
      * @param sp The Sharepoint object provided by the `@pnp/sp` package.
      * @param listTitle The title of the list for this service.
@@ -34,17 +30,15 @@ export class Service {
      * @returns All the items contained in the list.
      */
     async getAllItems(fetchAttachmentFiles) {
-        if (this.items)
-            return this.items;
-        this.items = await this.sp.web.lists
+        const items = await this.sp.web.lists
             .getByTitle(this.listTitle)
             .items.top(5000)();
         // If the argument is not defined, the value is false by default.
         fetchAttachmentFiles ??= false;
         if (fetchAttachmentFiles) {
-            this.items.forEach((item) => this.fetchAttachmentFiles(item.ID).then((attachmentFiles) => (item.AttachmentFiles = attachmentFiles)));
+            items.forEach((item) => this.fetchAttachmentFiles(item.ID).then((attachmentFiles) => (item.AttachmentFiles = attachmentFiles)));
         }
-        return this.items;
+        return items;
     }
     /**
      * Returns all the attachment files for the item with the given `id`.
@@ -63,10 +57,7 @@ export class Service {
      * @returns The items for which the `filter` callback returned `true`
      */
     async getItemsWhere(filter) {
-        if (!this.items) {
-            await this.getAllItems();
-        }
-        const items = this.items;
+        const items = await this.getAllItems();
         return items.filter(filter);
     }
     /**
@@ -75,9 +66,6 @@ export class Service {
      * @returns The item in the list with the given `id`.
      */
     async getItemById(id) {
-        if (this.items) {
-            return this.items.filter((item) => item.ID === id)[0];
-        }
         return this.sp.web.lists.getByTitle(this.listTitle).items.getById(id)();
     }
     /**

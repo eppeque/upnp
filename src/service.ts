@@ -22,11 +22,6 @@ export class Service<T extends BaseItem> {
   private listTitle: string;
 
   /**
-   * The cached items of the list for this service.
-   */
-  private items: T[] | undefined;
-
-  /**
    * Creates a base service object with basic operations.
    * @param sp The Sharepoint object provided by the `@pnp/sp` package.
    * @param listTitle The title of the list for this service.
@@ -42,9 +37,7 @@ export class Service<T extends BaseItem> {
    * @returns All the items contained in the list.
    */
   async getAllItems(fetchAttachmentFiles?: boolean): Promise<T[]> {
-    if (this.items) return this.items;
-
-    this.items = await this.sp.web.lists
+    const items = await this.sp.web.lists
       .getByTitle(this.listTitle)
       .items.top(5000)<T[]>();
 
@@ -52,14 +45,14 @@ export class Service<T extends BaseItem> {
     fetchAttachmentFiles ??= false;
 
     if (fetchAttachmentFiles) {
-      this.items.forEach((item) =>
+      items.forEach((item) =>
         this.fetchAttachmentFiles(item.ID).then(
           (attachmentFiles) => (item.AttachmentFiles = attachmentFiles)
         )
       );
     }
 
-    return this.items;
+    return items;
   }
 
   /**
@@ -80,11 +73,7 @@ export class Service<T extends BaseItem> {
    * @returns The items for which the `filter` callback returned `true`
    */
   async getItemsWhere(filter: (item: T) => boolean): Promise<T[]> {
-    if (!this.items) {
-      await this.getAllItems();
-    }
-
-    const items = this.items!;
+    const items = await this.getAllItems();
     return items.filter(filter);
   }
 
@@ -94,10 +83,6 @@ export class Service<T extends BaseItem> {
    * @returns The item in the list with the given `id`.
    */
   async getItemById(id: number): Promise<T | undefined> {
-    if (this.items) {
-      return this.items.filter((item) => item.ID === id)[0];
-    }
-
     return this.sp.web.lists.getByTitle(this.listTitle).items.getById(id)<T>();
   }
 
