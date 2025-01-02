@@ -1,15 +1,12 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.SharepointService = void 0;
-require("@pnp/sp/webs");
-require("@pnp/sp/lists");
-require("@pnp/sp/items");
+import "@pnp/sp/webs";
+import "@pnp/sp/lists";
+import "@pnp/sp/items";
 /**
  * A base class that exposes the most basic operations possible.
  *
  * This class should be inherited by each service of each list.
  */
-class SharepointService {
+export class SharepointService {
     /**
      * The Sharepoint object provided by the `@pnp/sp` package.
      */
@@ -114,4 +111,4 @@ class SharepointService {
             .delete();
     }
 }
-exports.SharepointService = SharepointService;
+//# sourceMappingURL=sharepoint.js.map
