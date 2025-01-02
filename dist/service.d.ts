@@ -8,7 +8,7 @@ import type { BaseItem } from "./base_item";
  *
  * This class should be inherited by each service of each list.
  */
-export declare class SharepointService<T extends BaseItem> {
+export declare class Service<T extends BaseItem> {
     /**
      * The Sharepoint object provided by the `@pnp/sp` package.
      */

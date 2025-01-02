@@ -1,3 +1,4 @@
-import { SharepointService } from "./sharepoint";
+import { Service } from "./service";
 import type { BaseItem } from "./base_item";
-export { SharepointService, type BaseItem };
+import { initSharepoint } from "./init";
+export { Service as SharepointService, type BaseItem, initSharepoint };

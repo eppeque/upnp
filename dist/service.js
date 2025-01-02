@@ -6,7 +6,7 @@ import "@pnp/sp/items";
  *
  * This class should be inherited by each service of each list.
  */
-export class SharepointService {
+export class Service {
     /**
      * The Sharepoint object provided by the `@pnp/sp` package.
      */
@@ -111,4 +111,4 @@ export class SharepointService {
             .delete();
     }
 }
-//# sourceMappingURL=sharepoint.js.map
+//# sourceMappingURL=service.js.map
