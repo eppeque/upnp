@@ -1,4 +1,4 @@
 import { Service } from "./service";
 import { initSharepoint } from "./init";
-export { Service as SharepointService, initSharepoint };
+export { Service, initSharepoint };
 //# sourceMappingURL=index.js.map
