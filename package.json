@@ -2,7 +2,11 @@
   "name": "upnp",
   "version": "1.0.0",
   "description": "An upgrade to @pnp/sp",
-  "module": "index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/main.d.ts",
+  "scripts": {
+    "build": "tsc --declaration"
+  },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
