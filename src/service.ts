@@ -10,7 +10,7 @@ import type { IAttachmentInfo } from "@pnp/sp/attachments";
  *
  * This class should be inherited by each service of each list.
  */
-export class SharepointService<T extends BaseItem> {
+export class Service<T extends BaseItem> {
   /**
    * The Sharepoint object provided by the `@pnp/sp` package.
    */
